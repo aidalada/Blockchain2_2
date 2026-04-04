@@ -1,0 +1,40 @@
+name: Foundry CI
+
+# Запускать пайплайн при пуше в основную ветку или при создании Pull Request
+on:
+  push:
+    branches: [ "master", "main" ]
+  pull_request:
+    branches: [ "master", "main" ]
+
+jobs:
+  test-and-analyze:
+    runs-on: ubuntu-latest
+
+    steps:
+      # 1. Скачиваем код из репозитория
+      - name: Checkout repository
+        uses: actions/checkout@v4
+        with:
+          submodules: recursive # Важно для подтягивания зависимостей Foundry (forge-std)
+
+      # 2. Устанавливаем Foundry
+      - name: Install Foundry toolchain
+        uses: foundry-rs/foundry-toolchain@v1
+        with:
+          version: nightly
+
+      # 3. Компилируем контракты
+      - name: Compile Smart Contracts
+        run: forge build
+
+      # 4. Запускаем тесты и генерируем отчет по газу
+      - name: Run Tests & Gas Report
+        run: forge test --gas-report
+
+      # 5. Запускаем статический анализатор Slither
+      - name: Run Slither Static Analysis
+        uses: crytic/slither-action@v0.4.0
+        with:
+          fail-on: none # Пайплайн не упадет (останется зеленым), даже если Slither найдет предупреждения
+          slither-args: --exclude-dependencies # Исключаем анализ стандартных библиотек для ускорения
