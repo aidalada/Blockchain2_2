@@ -23,8 +23,7 @@ contract MainnetForkTest is Test {
     uint256 mainnetFork;
     
     // Используем Ankr - он стабильнее работает с серверами GitHub
-    string MAINNET_RPC_URL = "https://rpc.ankr.com/eth";
-
+    string MAINNET_RPC_URL = "https://ethereum-rpc.publicnode.com";
     IERC20 usdc = IERC20(0xA0b86991c6218b36c1d19D4a2e9Eb0cE3606eB48);
     IERC20 weth = IERC20(0xC02aaA39b223FE8D0A0e5C4F27eAD9083C756Cc2);
     IUniswapV2Router02 router = IUniswapV2Router02(0x7a250d5630B4cF539739dF2C5dAcb4c659F2488D);
