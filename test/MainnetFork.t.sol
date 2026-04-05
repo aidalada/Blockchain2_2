@@ -33,7 +33,7 @@ contract MainnetForkTest is Test {
     function setUp() public {
         // ФИКС: Явно указываем номер блока (19000000). 
         // Это предотвращает ошибки в CI/CD, делая форк стабильным.
-        mainnetFork = vm.createSelectFork(MAINNET_RPC_URL, 19000000);
+        mainnetFork = vm.createSelectFork(MAINNET_RPC_URL);
     }
 
     function test_ReadUSDCTotalSupply() public view {
